@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class RealBridge implements Bridge
 {
-	private class Hall
+	private static class Hall
 	{
 		private String city, name;
 		private int seats;
@@ -61,7 +61,7 @@ public class RealBridge implements Bridge
 		}
 	}
 
-	private class Admin
+	private static class Admin
 	{
 		private String city, username, password;
 
@@ -150,6 +150,7 @@ public class RealBridge implements Bridge
 		    (!toPut.hastime && toPut.showTime!=null) ||
 		    (toPut.hastime && toPut.showTime==null))
 			return 0;
+		toPut.setChairs(hall.seats);
 		return shows.put(toPut, toPut)==null ? Math.abs(toPut.hashCode()) : 0;
 	}
 

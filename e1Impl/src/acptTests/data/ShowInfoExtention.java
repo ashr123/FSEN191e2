@@ -4,7 +4,12 @@ import java.util.Objects;
 
 public class ShowInfoExtention extends ShowInfo
 {
+	public enum ChairState
+	{
+		FREE, RESERVED, OCCUPIED
+	}
 
+	private ChairState[] chairs;
 	public ShowInfoExtention(ShowInfo showInfo)
 	{
 		this.city=showInfo.city; //
@@ -17,6 +22,18 @@ public class ShowInfoExtention extends ShowInfo
 		this.ticketCost=showInfo.ticketCost;
 		this.hastime=showInfo.hastime;
 		this.userstoinform=showInfo.userstoinform;
+	}
+
+	public void setChairs(int seats)
+	{
+		chairs=new ChairState[seats];
+		for (int i=0; i<seats; i++)
+			chairs[i]=ChairState.FREE;
+	}
+
+	public ChairState getChairState(int seat)
+	{
+		return chairs[seat];
 	}
 
 	@Override
