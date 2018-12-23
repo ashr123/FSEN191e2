@@ -3,8 +3,10 @@ package acptTests.bridge;
 import acptTests.data.OrderInfo;
 import acptTests.data.ShowInfo;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class RealBridge implements Bridge
 {
@@ -63,8 +65,11 @@ public class RealBridge implements Bridge
 		}
 	}
 
-	List<String> cities=new LinkedList<>();
-
+	Set<String> cities=new HashSet<>();
+	List<Admin> admins=new LinkedList<>();
+	List<Hall> halls=new LinkedList<>();
+	List<ShowInfo> shows=new LinkedList<>();
+	List<OrderInfo> orders=new LinkedList<>();
 
 	@Override
 	public void addCity(String city)
