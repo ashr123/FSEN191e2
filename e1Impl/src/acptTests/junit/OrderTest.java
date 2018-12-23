@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 public class OrderTest extends ProjectTest
 {
 
-	protected SimpleDateFormat dateFormat=new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+	private SimpleDateFormat dateFormat=new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 	private int futureShowId, pastShowId;
 
@@ -127,9 +127,9 @@ public class OrderTest extends ProjectTest
 		} while (goodOrder2.showId==this.futureShowId || goodOrder2.showId==this.pastShowId);
 		int reservationId;
 		reservationId=this.placeOrder(goodOrder1);
-		assertTrue("member can not order tickets to unknown show !", reservationId==0);
+		assertEquals("member can not order tickets to unknown show !", 0, reservationId);
 		reservationId=this.placeOrder(goodOrder2);
-		assertTrue("member can not order tickets to unknown show !", reservationId==0);
+		assertEquals("member can not order tickets to unknown show !", 0, reservationId);
 	}
 
 	@Test
@@ -139,9 +139,9 @@ public class OrderTest extends ProjectTest
 		goodOrder2.phone="";
 		int reservationId;
 		reservationId=this.placeOrder(goodOrder1);
-		assertTrue("member can not order tickets without name !", reservationId==0);
+		assertEquals("member can not order tickets without name !", 0, reservationId);
 		reservationId=this.placeOrder(goodOrder2);
-		assertTrue("member can not order tickets without phone number !", reservationId==0);
+		assertEquals("member can not order tickets without phone number !", 0, reservationId);
 	}
 
 	@Test
@@ -151,9 +151,9 @@ public class OrderTest extends ProjectTest
 		goodOrder2.chairsIds=new int[0];
 		int reservationId;
 		reservationId=this.placeOrder(goodOrder1);
-		assertTrue("member can not order tickets without chairs !", reservationId==0);
+		assertEquals("member can not order tickets without chairs !", 0, reservationId);
 		reservationId=this.placeOrder(goodOrder2);
-		assertTrue("member can not order tickets without chairs !", reservationId==0);
+		assertEquals("member can not order tickets without chairs !", 0, reservationId);
 	}
 
 	@Test

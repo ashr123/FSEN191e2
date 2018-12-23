@@ -10,13 +10,17 @@ import java.util.List;
 
 public abstract class ProjectTest extends TestCase
 {
-	public static final int HALL_CITY=0, HALL_NAME=1, HALL_SITS=2;
-	public static final int USER_CITY=0, USER_USER=1, USER_PASS=2;
+	static final int HALL_CITY=0;
+	static final int HALL_NAME=1;
+	private static final int HALL_SITS=2;
+	static final int USER_CITY=0;
+	static final int USER_USER=1;
+	static final int USER_PASS=2;
 	// SetUp information
-	protected final String[] cities={"Beer Sheva", "Tel Aviv", "Haifa"};
-	protected final Object[][] halls={{cities[0], "hall 1", 300}, {cities[1], "hall 1", 230},
+	private final String[] cities={"Beer Sheva", "Tel Aviv", "Haifa"};
+	final Object[][] halls={{cities[0], "hall 1", 300}, {cities[1], "hall 1", 230},
 	                                  {cities[1], "hall 2", 413},};
-	protected final String[][] users={{cities[0], "bAdmin", "bPassWord"}, {cities[1], "tlv", "abcd1234"},
+	final String[][] users={{cities[0], "bAdmin", "bPassWord"}, {cities[1], "tlv", "abcd1234"},
 	                                  {cities[2], "green", "house"}};
 	private Bridge bridge;
 
@@ -51,22 +55,22 @@ public abstract class ProjectTest extends TestCase
 		}
 	}
 
-	public int addShow(String user, String pass, ShowInfo showInfo)
+	int addShow(String user, String pass, ShowInfo showInfo)
 	{
 		return this.bridge.addNewShow(user, pass, showInfo);
 	}
 
-	public void reserveMemberChairs(int showID, int from, int to)
+	void reserveMemberChairs(int showID, int from, int to)
 	{
 		this.bridge.reserveMemberChairs(showID, from, to);
 	}
 
-	public int placeOrder(OrderInfo order)
+	int placeOrder(OrderInfo order)
 	{
 		return this.bridge.newOrder(order);
 	}
 
-	public List<OrderInfo> getWaitings(int id)
+	List<OrderInfo> getWaitings(int id)
 	{
 		return this.bridge.getWaitings(id);
 	}
