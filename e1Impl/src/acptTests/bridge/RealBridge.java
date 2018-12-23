@@ -48,9 +48,8 @@ public class RealBridge implements Bridge
 
 			Hall hall=(Hall) o;
 
-			if (!getCity().equals(hall.getCity()))
-				return false;
-			return getName().equals(hall.getName());
+			return !getCity().equals(hall.getCity()) ||
+			       getName().equals(hall.getName());
 		}
 
 		@Override
@@ -112,7 +111,7 @@ public class RealBridge implements Bridge
 	private Map<Admin, Admin> admins=new HashMap<>();
 	private Map<Hall, Hall> halls=new HashMap<>();
 	private Map<ShowInfoExtention, ShowInfoExtention> shows=new HashMap<>();
-	private List<OrderInfo> orders=new LinkedList<>();
+	private Map<OrderInfo, OrderInfo> orders=new HashMap<>();
 
 	@Override
 	public void addCity(String city)
@@ -137,15 +136,20 @@ public class RealBridge implements Bridge
 	@Override
 	public int addNewShow(String user, String pass, ShowInfo showInfo)
 	{
+		if (user==null || pass==null || showInfo==null || showInfo.city==null || showInfo.hall==null)
+			return 0;
 		Admin admin=admins.get(new Admin(null, user, null));
 		Hall hall=halls.get(new Hall(showInfo.hall, showInfo.city, 0));
+		ShowInfoExtention toPut=new ShowInfoExtention(showInfo);
 		if (admin==null ||
 		    !admin.password.equals(pass) ||
 		    hall==null ||
 		    !cities.containsKey(showInfo.city) ||
-		    !admin.city.equals(hall.city))
+		    !admin.city.equals(hall.city) ||
+		    toPut.lastOrderDate>toPut.showDate ||
+		    (!toPut.hastime && toPut.showTime!=null) ||
+		    (toPut.hastime && toPut.showTime==null))
 			return 0;
-		ShowInfoExtention toPut=new ShowInfoExtention(showInfo);
 		return shows.put(toPut, toPut)==null ? Math.abs(toPut.hashCode()) : 0;
 	}
 
@@ -164,6 +168,10 @@ public class RealBridge implements Bridge
 	@Override
 	public List<OrderInfo> getWaitings(int id)
 	{
-		return null;
+		List<OrderInfo> output=new LinkedList<>();
+		for (OrderInfo o : orders.values())
+			if (o.showId==id)
+				output.add(o);
+		return output;
 	}
 }

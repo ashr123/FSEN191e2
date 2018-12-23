@@ -8,7 +8,7 @@ public class OrderInfo
 	public String name;
 	public String phone;
 	public int[] chairsIds;
-	public String memberId;
+	public String memberId; //optional
 
 	@Override
 	public String toString()

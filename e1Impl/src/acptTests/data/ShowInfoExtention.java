@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class ShowInfoExtention extends ShowInfo
 {
+
 	public ShowInfoExtention(ShowInfo showInfo)
 	{
 		this.city=showInfo.city; //
@@ -21,16 +22,18 @@ public class ShowInfoExtention extends ShowInfo
 	@Override
 	public boolean equals(Object o)
 	{
-		if (this==o) return true;
-		if (o==null || getClass()!=o.getClass()) return false;
+		if (this==o)
+			return true;
+		if (o==null || getClass()!=o.getClass())
+			return false;
 
 		ShowInfo showInfo=(ShowInfo) o;
 
-		if (showDate!=showInfo.showDate) return false;
-		if (!city.equals(showInfo.city)) return false;
-		if (!hall.equals(showInfo.hall)) return false;
-		if (!name.equals(showInfo.name)) return false;
-		return Objects.equals(showTime, showInfo.showTime);
+		return showDate!=showInfo.showDate ||
+		       !city.equals(showInfo.city) ||
+		       !hall.equals(showInfo.hall) ||
+		       !name.equals(showInfo.name) ||
+		       Objects.equals(showTime, showInfo.showTime);
 	}
 
 	@Override
