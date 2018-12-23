@@ -9,13 +9,13 @@ import java.util.List;
 
 public class ShowInfo
 {
-	public String city;
-	public String hall;
-	public String name;
+	public String city; //
+	public String hall; //
+	public String name; //
 	public String description;
 	public long lastOrderDate;
-	public LocalTime showTime;
-	public long showDate;
+	public LocalTime showTime; //
+	public long showDate; //
 	public double ticketCost;
 	public boolean hastime;
 	public List<OrderInfo> userstoinform=new LinkedList<>();
