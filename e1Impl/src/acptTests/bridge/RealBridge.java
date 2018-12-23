@@ -3,10 +3,69 @@ package acptTests.bridge;
 import acptTests.data.OrderInfo;
 import acptTests.data.ShowInfo;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class RealBridge implements Bridge
 {
+	private class Hall
+	{
+		private String city, name;
+		private int seats;
+
+		public String getCity()
+		{
+			return city;
+		}
+
+		public String getName()
+		{
+			return name;
+		}
+
+		public int getSeats()
+		{
+			return seats;
+		}
+
+		public Hall(String name, String city, int seats)
+		{
+			this.name=name;
+			this.city=city;
+			this.seats=seats;
+		}
+	}
+
+	private class Admin
+	{
+		private String city, username, password;
+
+		public String getCity()
+		{
+			return city;
+		}
+
+		public String getUsername()
+		{
+			return username;
+		}
+
+		public String getPassword()
+		{
+			return password;
+		}
+
+		public Admin(String city, String username, String password)
+		{
+			this.city=city;
+			this.password=password;
+			this.username=username;
+		}
+	}
+
+	List<String> cities=new LinkedList<>();
+
+
 	@Override
 	public void addCity(String city)
 	{
