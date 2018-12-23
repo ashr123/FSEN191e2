@@ -9,7 +9,7 @@ public class ShowInfoExtention extends ShowInfo
 		FREE, RESERVED, OCCUPIED
 	}
 
-	private ChairState[] chairs;
+	public ChairState[] chairs;
 
 	public int getId()
 	{
@@ -46,9 +46,11 @@ public class ShowInfoExtention extends ShowInfo
 
 	public void setReservation(int from, int to)
 	{
-		if((0 <= from) && (to <= chairs.length) && (from <= to)){
-			for(int i = from; i < to; i++){
-				chairs[i] = ChairState.RESERVED;
+		if ((0<=from) && (to<=chairs.length) && (from<=to))
+		{
+			for (int i=from; i<to; i++)
+			{
+				chairs[i]=ChairState.RESERVED;
 			}
 		}
 	}

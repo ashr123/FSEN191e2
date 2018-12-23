@@ -5,12 +5,13 @@ import acptTests.data.ShowInfo;
 import acptTests.data.ShowInfoExtention;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class RealBridge implements Bridge
 {
+	private int orderId=0;
+
 	private static class Hall
 	{
 		private String city, name;
@@ -180,75 +181,59 @@ public class RealBridge implements Bridge
 	@Override
 	public int newOrder(OrderInfo order)
 	{
-
 		if (order!=null)
-		{
 			if (!(order.name==null || order.phone==null || order.name.equals("") || order.phone.equals("")))
-			{
 				if (!(order.chairsIds==null || order.chairsIds.length==0))
 				{
-					Show show=shows.get(order.showId);
-					if (show!=null)
-					{
-						if (!(show.getShowInfo().lastOrderDate<System.currentTimeMillis()))
+					ShowInfoExtention show=null;
+					for (ShowInfoExtention showi : shows.values())
+						if (showi.getId()==order.showId)
 						{
-							int[] showSeats=show.getSeats();
+							show=showi;
+							break;
+						}
+					if (show!=null)
+						if (!(show.lastOrderDate<System.currentTimeMillis()))
+						{
+							ShowInfoExtention.ChairState[] showSeats=show.chairs;
 							int[] orderSeats=order.chairsIds;
 							for (int orderSeat : orderSeats)
-							{
-								if (showSeats[orderSeat]==3 || showSeats[orderSeat]==2)
-								{
+								if (showSeats[orderSeat].equals(ShowInfoExtention.ChairState.RESERVED) ||
+								    showSeats[orderSeat].equals(ShowInfoExtention.ChairState.OCCUPIED))
 									if (order.memberId==null)
 									{
 										System.out.println("Order Failed !");
 										return 0;
 									}
-								}
-							}
-							for (int orderSeat : orderSeats) showSeats[orderSeat]=2;
-							List<OrderInfo> list=show.userstoinform;
-							boolean exist=false;
-							for (Order order_key : list)
+							for (int orderSeat : orderSeats)
+								showSeats[orderSeat]=ShowInfoExtention.ChairState.OCCUPIED;
+							if (orderId >= 0)
 							{
-								if (order_key.name.equals(order.name)) exist=true;
-							}
-							if (!exist)
-							{
-								list.add(order);
-							}
-							reservationid++;
-							return reservationid;
-
-							int res=app.OrderRegister(replica);
-							if (res>0)
-							{
-								ShowInfo showInfo=all_shows_information.get(order.showId);
-								List<OrderInfo> list=showInfo.userstoinform;
+								List<OrderInfo> list=show.userstoinform;
 								boolean exist=false;
 								for (OrderInfo order_key : list)
-								{
-									if (order_key.name.equals(order.name)) exist=true;
-								}
+									if (order_key.name.equals(order.name))
+										exist=true;
 								if (!exist)
-								{
 									list.add(order);
-								}
 							}
-							return res;
+							orderId++;
+							return orderId;
 						}
-					}
 				}
-			}
-		}
+		return 0;
 	}
 
 	@Override
 	public List<OrderInfo> getWaitings(int id)
 	{
-		List<OrderInfo> output=new LinkedList<>();
-		for (OrderInfo o : orders.values())
-			if (o.showId==id)
-				output.add(o);
-		return output;
+		ShowInfoExtention show=null;
+		for (ShowInfoExtention showi : shows.values())
+			if (showi.getId()==id)
+			{
+				show=showi;
+				break;
+			}
+		return show!= null ? show.userstoinform : null;
 	}
 }
