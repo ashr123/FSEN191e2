@@ -151,19 +151,82 @@ public class RealBridge implements Bridge
 		    (toPut.hastime && toPut.showTime==null))
 			return 0;
 		toPut.setChairs(hall.seats);
-		return shows.put(toPut, toPut)==null ? Math.abs(toPut.hashCode()) : 0;
+		if (shows.put(toPut, toPut)==null)
+		{
+			int id=Math.abs(toPut.hashCode());
+			toPut.setId(id);
+			return id;
+		}
+		shows.remove(toPut);
+		return 0;
 	}
 
 	@Override
 	public void reserveMemberChairs(int showID, int from, int to)
 	{
-
+		ShowInfoExtention show=null;
+		for (ShowInfoExtention showi : shows.values())
+			if (showi.getId()==showID)
+			{
+				show=showi;
+				break;
+			}
+		if(show != null){
+			show.setReservation(from, to);
+		}
 	}
 
 	@Override
 	public int newOrder(OrderInfo order)
 	{
-		return 0;
+
+		if(order != null){
+			if(!(order.name == null || order.phone == null || order.name.equals("") || order.phone.equals(""))){
+				if(!(order.chairsIds == null || order.chairsIds.length == 0)){
+					Show show = shows.get(order.showId);
+					if(show != null){
+						if(!(show.getShowInfo().lastOrderDate < System.currentTimeMillis())){
+							int[] showSeats = show.getSeats();
+							int[] orderSeats = order.chairsIds;
+							for (int orderSeat : orderSeats) {
+								if (showSeats[orderSeat] == 3 || showSeats[orderSeat] == 2) {
+									if (order.memberId == null) {
+										System.out.println("Order Failed !");
+										return 0;
+									}
+								}
+							}
+							for (int orderSeat : orderSeats) showSeats[orderSeat] = 2;
+							List<OrderInfo> list = show.userstoinform;
+							boolean exist = false;
+							for(Order order_key : list){
+								if(order_key.name.equals(order.name)) exist = true;
+							}
+							if(!exist) {
+								list.add(order);
+							}
+							reservationid++;
+							return reservationid;
+
+							int res = app.OrderRegister(replica);
+							if(res > 0)
+							{
+								ShowInfo showInfo = all_shows_information.get(order.showId);
+								List<OrderInfo> list = showInfo.userstoinform;
+								boolean exist = false;
+								for(OrderInfo order_key : list){
+									if(order_key.name.equals(order.name)) exist = true;
+								}
+								if(!exist) {
+									list.add(order);
+								}
+							}
+							return res;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override

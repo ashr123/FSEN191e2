@@ -10,6 +10,19 @@ public class ShowInfoExtention extends ShowInfo
 	}
 
 	private ChairState[] chairs;
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id=id;
+	}
+
+	private int id;
+
 	public ShowInfoExtention(ShowInfo showInfo)
 	{
 		this.city=showInfo.city; //
@@ -29,6 +42,15 @@ public class ShowInfoExtention extends ShowInfo
 		chairs=new ChairState[seats];
 		for (int i=0; i<seats; i++)
 			chairs[i]=ChairState.FREE;
+	}
+
+	public void setReservation(int from, int to)
+	{
+		if((0 <= from) && (to <= chairs.length) && (from <= to)){
+			for(int i = from; i < to; i++){
+				chairs[i] = ChairState.RESERVED;
+			}
+		}
 	}
 
 	public ChairState getChairState(int seat)
