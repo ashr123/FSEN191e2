@@ -1,11 +1,12 @@
 package acptTests.bridge;
 
-import java.util.List;
-
 import acptTests.data.OrderInfo;
 import acptTests.data.ShowInfo;
 
-public interface Bridge {
+import java.util.List;
+
+public interface Bridge
+{
 
 	void addCity(String city);
 
@@ -15,34 +16,27 @@ public interface Bridge {
 
 	/**
 	 * Adds new show
-	 * 
-	 * @param user
-	 *            username
-	 * @param pass
-	 *            password
-	 * @param showInfo
-	 *            contains show information (used to reduce the amount of
-	 *            parameters)
+	 *
+	 * @param user     username
+	 * @param pass     password
+	 * @param showInfo contains show information (used to reduce the amount of
+	 *                 parameters)
 	 * @return If succeed returns unique show id (a positive number). Otherwise
-	 *         return 0.
+	 * return 0.
 	 */
 	int addNewShow(String user, String pass, ShowInfo showInfo);
 
 	/**
 	 * reserve chairs [from-to] for Pais members only
-	 * 
-	 * @param showID
-	 *            show id (as return from addNewShow)
-	 * @param from
-	 *            minimum chair id
-	 * @param to
-	 *            maximum chair id
+	 *
+	 * @param showID show id (as return from addNewShow)
+	 * @param from   minimum chair id
+	 * @param to     maximum chair id
 	 */
 	void reserveMemberChairs(int showID, int from, int to);
 
 	/**
-	 * @param order
-	 *            order information
+	 * @param order order information
 	 * @return If succeed return an unique reservation id. Otherwise return 0.
 	 */
 	int newOrder(OrderInfo order);
